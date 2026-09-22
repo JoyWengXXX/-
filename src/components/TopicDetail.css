@@ -1,0 +1,494 @@
+.topic-detail {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+.back-link {
+  background: none;
+  border: none;
+  color: #5b8def;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 0 12px;
+}
+
+.topic-detail-header h1 {
+  margin: 0 0 4px;
+  color: #1f2933;
+}
+
+.topic-tagline {
+  color: #616e7c;
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.topic-prereq {
+  font-size: 13px;
+  color: #9aa5b1;
+  margin: 0 0 16px;
+}
+
+.step-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+}
+
+.step-card h2 {
+  font-size: 16px;
+  margin: 0 0 10px;
+  color: #1f2933;
+}
+
+.step-card p,
+.step-card li {
+  color: #334155;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.step-card.not-taught {
+  background: #f8f5ee;
+}
+
+.not-taught-note {
+  color: #9aa5b1;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.topic-detail-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.topic-detail-footer button,
+.step-card button {
+  background: #5b8def;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.step-card button.secondary {
+  background: #eef1f5;
+  color: #334155;
+}
+
+/* Quiz */
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.quiz-option {
+  text-align: left;
+  background: #f5f7fa !important;
+  color: #1f2933 !important;
+  border: 1.5px solid #e2e6ea;
+}
+
+.quiz-option.correct {
+  border-color: #37b874 !important;
+  background: #eafaf1 !important;
+}
+
+.quiz-option.wrong {
+  border-color: #e05260 !important;
+  background: #fdecec !important;
+}
+
+.quiz-feedback {
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.quiz-feedback.ok {
+  background: #eafaf1;
+  color: #1c7a44;
+}
+
+.quiz-feedback.no {
+  background: #fdecec;
+  color: #a3313b;
+}
+
+/* Sandboxes */
+.sandbox-hint {
+  font-size: 13px;
+  color: #616e7c;
+}
+
+.sandbox-textarea {
+  width: 100%;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e6ea;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.sandbox-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sandbox-error {
+  color: #a3313b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.sandbox-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sandbox-table th,
+.sandbox-table td {
+  border: 1px solid #e2e6ea;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.preset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.api-request-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.api-request-row select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e6ea;
+}
+
+.api-request-row input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e6ea;
+}
+
+.api-response pre {
+  background: #1f2933;
+  color: #d8f3dc;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.status-2xx {
+  background: #eafaf1;
+  color: #1c7a44;
+}
+
+.status-4xx {
+  background: #fff4e5;
+  color: #b45309;
+}
+
+.status-5xx {
+  background: #fdecec;
+  color: #a3313b;
+}
+
+/* Linux terminal sandbox */
+.terminal {
+  background: #1f2933;
+  color: #d1f7ff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.terminal-line {
+  margin-bottom: 6px;
+}
+
+.terminal-prompt {
+  color: #9ae6b4;
+}
+
+.terminal-cwd {
+  color: #7dd3fc;
+}
+
+.terminal-output {
+  white-space: pre-wrap;
+  color: #e2e8f0;
+}
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1f2933;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.terminal-input-row .terminal-cwd {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.terminal-input-row input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+  outline: none;
+}
+
+.terminal-input-row button {
+  padding: 6px 14px;
+}
+
+/* Docker visual diagram */
+.docker-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.docker-flow-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.docker-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 96px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 2px solid #e2e6ea;
+  background: #f5f7fa;
+  cursor: pointer;
+}
+
+.docker-box.active {
+  border-color: #f0973a;
+  background: #fff6ec;
+}
+
+.docker-box-icon {
+  font-size: 26px;
+}
+
+.docker-box-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.docker-arrow {
+  font-size: 12px;
+  color: #9aa5b1;
+  white-space: nowrap;
+}
+
+.docker-desc {
+  background: #f5f7fa;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.docker-toggle {
+  margin-bottom: 12px;
+}
+
+.docker-comparison {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.docker-comparison-col {
+  flex: 1;
+  min-width: 220px;
+  background: #f5f7fa;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.docker-comparison-col h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.docker-comparison-col p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.docker-machine-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.docker-machine {
+  flex: 1;
+  min-width: 90px;
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 8px;
+  background: #fdecec;
+  border: 1.5px solid #f3b8bc;
+  font-size: 12px;
+}
+
+.docker-machine.same {
+  background: #eafaf1;
+  border-color: #9ae6b4;
+}
+
+/* Message queue visual */
+.mq-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.mq-lanes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.mq-lane {
+  flex: 1;
+  min-width: 160px;
+  background: #f5f7fa;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.mq-lane-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #616e7c;
+  margin-bottom: 8px;
+}
+
+.mq-lane-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 36px;
+  align-items: center;
+}
+
+.mq-empty {
+  font-size: 12px;
+  color: #9aa5b1;
+}
+
+.mq-ticket {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.mq-ticket.waiting {
+  background: #fff4e5;
+  color: #b45309;
+  border: 1.5px solid #f0973a;
+}
+
+.mq-ticket.processing {
+  background: #e8f0fe;
+  color: #1d4ed8;
+  border: 1.5px solid #5b8def;
+}
+
+.mq-ticket.done {
+  background: #eafaf1;
+  color: #1c7a44;
+  border: 1.5px solid #9ae6b4;
+}
+
+.mq-ticket.crashed {
+  background: #fdecec;
+  color: #a3313b;
+  border: 1.5px solid #e05260;
+}
+
+.mq-failure-log {
+  background: #f5f7fa;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.mq-failure-log p {
+  font-size: 13px;
+  color: #9aa5b1;
+  margin: 0 0 6px;
+}
+
+.mq-failure-log p.mq-failure-log-current {
+  color: #1f2933;
+  font-weight: 600;
+}
+
+
+
+
