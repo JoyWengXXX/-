@@ -40,7 +40,7 @@ export default function TopicDetail() {
         )}
       </div>
 
-      <div className="topic-steps">
+      <div className="topic-steps" key={topic.id}>
         {topic.steps.map((step, i) => (
           <section className="step-card" key={i}>
             <h2>{step.title}</h2>
