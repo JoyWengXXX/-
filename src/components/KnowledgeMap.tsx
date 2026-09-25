@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { topics } from "../content/topics";
 import "./KnowledgeMap.css";
 
-const stageColors = ["#5b8def", "#5b8def", "#37b874", "#f0973a", "#c94f8c"];
+const stageColors = ["#5b8def", "#5b8def", "#37b874", "#f0973a", "#c94f8c", "#9b59b6"];
 
 function TopicNode({ data }: { data: { title: string; tagline: string; stage: number } }) {
   return (
@@ -65,7 +65,7 @@ export default function KnowledgeMap() {
         <h1>資訊系統知識學習地圖</h1>
         <p>從左到右、由淺入深。點一個節點開始闖關。</p>
         <div className="stage-legend">
-          {["基礎心智模型", "資料怎麼存", "系統怎麼跑", "服務怎麼溝通", "系統怎麼撐大"].map(
+          {["基礎心智模型", "資料怎麼存", "系統怎麼跑", "服務怎麼溝通", "系統怎麼撐大", "QA 專業技能"].map(
             (label, i) => (
               <span
                 key={label}

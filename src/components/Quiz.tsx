@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { playQuizCorrectSound, playQuizWrongSound } from "../lib/sound";
 
 interface QuizProps {
   question: string;
@@ -33,7 +34,10 @@ export default function Quiz({ question, options, correctIndex, explanation }: Q
             <button
               key={opt}
               className={`quiz-option ${isCorrect ? "correct" : ""} ${isWrongPick ? "wrong" : ""}`}
-              onClick={() => setSelected(i)}
+              onClick={() => {
+                setSelected(i);
+                isCorrectAnswer ? playQuizCorrectSound() : playQuizWrongSound();
+              }}
               disabled={selected !== null}
             >
               {opt}

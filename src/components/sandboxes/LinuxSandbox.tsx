@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { playErrorSound, playSuccessSound } from "../../lib/sound";
 
 // 純前端模擬的檔案系統，不會執行真實指令，只重現 ls/cd/pwd/cat/mkdir 的行為
 type FsNode = { type: "dir"; children: Record<string, FsNode> } | { type: "file"; content: string };
@@ -165,6 +166,8 @@ export default function LinuxSandbox() {
       output = `指令不存在：${cmd}（試試 pwd、ls、cd、cat、mkdir 或 help）`;
     }
 
+    const isError = output.startsWith(`${cmd}: `) || output.startsWith("指令不存在");
+    isError ? playErrorSound() : playSuccessSound();
     setLog((prev) => [...prev, { cwd: cwdDisplay, command: trimmed, output }]);
     setInput("");
   }
