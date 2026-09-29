@@ -13,7 +13,9 @@ export type Step =
     }
   | { type: "sql-sandbox"; title: string; body: string }
   | { type: "api-sandbox"; title: string; body: string }
+  | { type: "postman-sandbox"; title: string; body: string }
   | { type: "linux-sandbox"; title: string; body: string }
+  | { type: "docker-sandbox"; title: string; body: string }
   | { type: "docker-visual"; title: string; body: string }
   | { type: "mq-visual"; title: string; body: string }
   | { type: "mq-failure-visual"; title: string; body: string };

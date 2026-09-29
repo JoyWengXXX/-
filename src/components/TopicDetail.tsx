@@ -3,7 +3,9 @@ import { getTopic, topics } from "../content/topics";
 import Quiz from "./Quiz";
 import SqlSandbox from "./sandboxes/SqlSandbox";
 import ApiPlayground from "./sandboxes/ApiPlayground";
+import PostmanSandbox from "./sandboxes/PostmanSandbox";
 import LinuxSandbox from "./sandboxes/LinuxSandbox";
+import DockerSandbox from "./sandboxes/DockerSandbox";
 import DockerDiagram from "./visuals/DockerDiagram";
 import MessageQueueDiagram from "./visuals/MessageQueueDiagram";
 import MessageQueueFailureDemo from "./visuals/MessageQueueFailureDemo";
@@ -72,6 +74,12 @@ export default function TopicDetail() {
                 <ApiPlayground />
               </>
             )}
+            {step.type === "postman-sandbox" && (
+              <>
+                <p>{step.body}</p>
+                <PostmanSandbox />
+              </>
+            )}
             {step.type === "linux-sandbox" && (
               <>
                 <p>{step.body}</p>
@@ -82,6 +90,12 @@ export default function TopicDetail() {
               <>
                 <p>{step.body}</p>
                 <DockerDiagram />
+              </>
+            )}
+            {step.type === "docker-sandbox" && (
+              <>
+                <p>{step.body}</p>
+                <DockerSandbox />
               </>
             )}
             {step.type === "mq-visual" && (

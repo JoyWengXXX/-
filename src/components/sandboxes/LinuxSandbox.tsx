@@ -71,6 +71,7 @@ const presets = [
   { label: "進去 notes 資料夾", command: "cd notes" },
   { label: "看看 todo.txt 寫什麼", command: "cat todo.txt" },
   { label: "新增一個資料夾", command: "mkdir my-folder" },
+  { label: "連續指令：新增資料夾後直接切換進去", command: "mkdir project && cd project" },
 ];
 
 interface LogEntry {
@@ -95,20 +96,25 @@ export default function LinuxSandbox() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [log]);
 
-  function run(rawCommand: string) {
-    const trimmed = rawCommand.trim();
-    if (!trimmed) return;
+  function execOne(
+    fsState: FsNode,
+    cwdState: string[],
+    trimmed: string
+  ): { output: string; isError: boolean; fs: FsNode; cwd: string[]; clear?: boolean } {
     const [cmd, ...args] = trimmed.split(/\s+/);
     let output = "";
+    let nextFs = fsState;
+    let nextCwd = cwdState;
+    const cwdDisplayLocal = "/" + cwdState.join("/");
 
     if (cmd === "help") {
-      output = "可用指令：pwd、ls [路徑]、cd <路徑>、cat <檔案>、mkdir <名稱>、clear";
+      output = "可用指令：pwd、ls [路徑]、cd <路徑>、cat <檔案>、mkdir <名稱>、clear（可用 && 串連多個指令，例如 mkdir a && cd a）";
     } else if (cmd === "pwd") {
-      output = cwdDisplay;
+      output = cwdDisplayLocal;
     } else if (cmd === "ls") {
-      const target = args[0] ? resolvePath(cwd, args[0]) : cwd;
-      const node = getNode(fs, target);
-      if (!node) output = `ls: 找不到路徑「${args[0] ?? cwdDisplay}」`;
+      const target = args[0] ? resolvePath(cwdState, args[0]) : cwdState;
+      const node = getNode(fsState, target);
+      if (!node) output = `ls: 找不到路徑「${args[0] ?? cwdDisplayLocal}」`;
       else if (node.type !== "dir") output = `ls: 「${args[0]}」不是資料夾`;
       else {
         const names = Object.entries(node.children).map(([name, child]) =>
@@ -120,12 +126,12 @@ export default function LinuxSandbox() {
       if (!args[0]) {
         output = "cd: 請指定要去的路徑，例如 cd notes";
       } else {
-        const target = resolvePath(cwd, args[0]);
-        const node = getNode(fs, target);
+        const target = resolvePath(cwdState, args[0]);
+        const node = getNode(fsState, target);
         if (!node) output = `cd: 沒有這個路徑「${args[0]}」`;
         else if (node.type !== "dir") output = `cd: 「${args[0]}」是檔案，不是資料夾`;
         else {
-          setCwd(target);
+          nextCwd = target;
           output = `已切換到 /${target.join("/")}`;
         }
       }
@@ -133,8 +139,8 @@ export default function LinuxSandbox() {
       if (!args[0]) {
         output = "cat: 請指定要看的檔案，例如 cat todo.txt";
       } else {
-        const target = resolvePath(cwd, args[0]);
-        const node = getNode(fs, target);
+        const target = resolvePath(cwdState, args[0]);
+        const node = getNode(fsState, target);
         if (!node) output = `cat: 找不到檔案「${args[0]}」`;
         else if (node.type !== "file") output = `cat: 「${args[0]}」是資料夾，不是檔案`;
         else output = node.content;
@@ -143,15 +149,15 @@ export default function LinuxSandbox() {
       if (!args[0]) {
         output = "mkdir: 請指定資料夾名稱，例如 mkdir my-folder";
       } else {
-        const parentNode = getNode(fs, cwd);
+        const parentNode = getNode(fsState, cwdState);
         if (parentNode && parentNode.type === "dir" && parentNode.children[args[0]]) {
           output = `mkdir: 「${args[0]}」已經存在了`;
         } else {
-          const next = cloneFs(fs);
-          const parent = getNode(next, cwd);
+          const cloned = cloneFs(fsState);
+          const parent = getNode(cloned, cwdState);
           if (parent && parent.type === "dir") {
             parent.children[args[0]] = { type: "dir", children: {} };
-            setFs(next);
+            nextFs = cloned;
             output = `已建立資料夾「${args[0]}」`;
           } else {
             output = "mkdir: 發生未預期的錯誤";
@@ -159,18 +165,53 @@ export default function LinuxSandbox() {
         }
       }
     } else if (cmd === "clear") {
-      setLog([]);
-      setInput("");
-      return;
+      return { output: "", isError: false, fs: fsState, cwd: cwdState, clear: true };
     } else {
       output = `指令不存在：${cmd}（試試 pwd、ls、cd、cat、mkdir 或 help）`;
     }
 
     const isError = output.startsWith(`${cmd}: `) || output.startsWith("指令不存在");
-    isError ? playErrorSound() : playSuccessSound();
-    setLog((prev) => [...prev, { cwd: cwdDisplay, command: trimmed, output }]);
+    return { output, isError, fs: nextFs, cwd: nextCwd };
+  }
+
+  function run(rawCommand: string) {
+    const trimmedFull = rawCommand.trim();
+    if (!trimmedFull) return;
+    // 支援 && 串連多個指令，前一個失敗就不繼續執行後面的指令
+    const parts = trimmedFull
+      .split("&&")
+      .map((p) => p.trim())
+      .filter(Boolean);
+    if (parts.length === 0) return;
+
+    let currentFs = fs;
+    let currentCwd = cwd;
+    let entries: LogEntry[] = [];
+    let cleared = false;
+    let lastIsError = false;
+
+    for (const part of parts) {
+      const beforeCwd = currentCwd;
+      const result = execOne(currentFs, currentCwd, part);
+      if (result.clear) {
+        entries = [];
+        cleared = true;
+        continue;
+      }
+      currentFs = result.fs;
+      currentCwd = result.cwd;
+      lastIsError = result.isError;
+      entries.push({ cwd: "/" + beforeCwd.join("/"), command: part, output: result.output });
+      if (result.isError) break;
+    }
+
+    setFs(currentFs);
+    setCwd(currentCwd);
+    lastIsError ? playErrorSound() : playSuccessSound();
+    setLog((prev) => (cleared ? entries : [...prev, ...entries]));
     setInput("");
   }
+
 
   return (
     <div className="sandbox linux-sandbox">
